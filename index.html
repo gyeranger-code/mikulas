@@ -205,7 +205,7 @@ const SUPABASE_KEY = 'IDE_AZ_ANON_KEY';      // anon / publishable key (ez nyugo
     show('s-list');
     $('list-msg').style.display = 'none';
     $('list-sub').textContent = 'Betöltés…';
-    try { names = await rpc('list_names'); }
+    try { names = await rpc('mikulas_list_names'); }
     catch (e) { $('names').innerHTML = ''; $('mine').innerHTML = ''; $('list-sub').textContent = ''; $('list-msg').textContent = errText(e); $('list-msg').style.display = 'block'; return; }
     renderList();
   }
@@ -268,7 +268,7 @@ const SUPABASE_KEY = 'IDE_AZ_ANON_KEY';      // anon / publishable key (ez nyugo
     $('draw-tip').style.display = 'none';
     const wait = new Promise(r => setTimeout(r, 950));
     let target = null, err = null;
-    try { target = await rpc('claim', { p_name: current, p_token: token }); } catch (e) { err = e; }
+    try { target = await rpc('mikulas_claim', { p_name: current, p_token: token }); } catch (e) { err = e; }
     await wait;
     $('gift').style.display = 'none';
     if (target) {
@@ -304,7 +304,7 @@ const SUPABASE_KEY = 'IDE_AZ_ANON_KEY';      // anon / publishable key (ez nyugo
       pin = p; openAdmin([]); return;
     }
     $('pin-go').disabled = true;
-    try { const rows = await rpc('admin_list', { p_pin: p, p_with_targets: false }); pin = p; openAdmin(rows); }
+    try { const rows = await rpc('mikulas_admin_list', { p_pin: p, p_with_targets: false }); pin = p; openAdmin(rows); }
     catch (e) { $('pin-err').textContent = errText(e); }
     $('pin-go').disabled = false;
   };
@@ -336,7 +336,7 @@ const SUPABASE_KEY = 'IDE_AZ_ANON_KEY';      // anon / publishable key (ez nyugo
         const b = document.createElement('button'); b.textContent = 'Felold';
         b.onclick = async () => {
           if (!confirm(`Feloldod: ${r.name}? Ezután bárki újra megnyithatja ezt a nevet.`)) return;
-          try { await rpc('admin_unlock', { p_pin: pin, p_name: r.name }); refreshAdmin(withTargets); }
+          try { await rpc('mikulas_admin_unlock', { p_pin: pin, p_name: r.name }); refreshAdmin(withTargets); }
           catch (e) { alert(errText(e)); }
         };
         li.appendChild(b);
@@ -350,7 +350,7 @@ const SUPABASE_KEY = 'IDE_AZ_ANON_KEY';      // anon / publishable key (ez nyugo
     };
   }
   async function refreshAdmin(withTargets){
-    try { renderAdminRows(await rpc('admin_list', { p_pin: pin, p_with_targets: withTargets }), withTargets); }
+    try { renderAdminRows(await rpc('mikulas_admin_list', { p_pin: pin, p_with_targets: withTargets }), withTargets); }
     catch (e) { alert(errText(e)); }
   }
 
@@ -363,7 +363,7 @@ const SUPABASE_KEY = 'IDE_AZ_ANON_KEY';      // anon / publishable key (ez nyugo
     if (names.length && !confirm('Biztosan újrasorsolsz? Mindenki eddigi húzása elveszik!')) return;
     $('setup-go').disabled = true;
     try {
-      await rpc('admin_setup', { p_pin: pin, p_names: list });
+      await rpc('mikulas_admin_setup', { p_pin: pin, p_names: list });
       $('names-in').value = '';
       alert(`Kész! ${list.length} név kisorsolva. Mehet a link a csoportba. 🎅`);
       loadList();

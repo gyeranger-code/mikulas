@@ -7,7 +7,7 @@ Egy közös link, mindenki a saját telefonján húz. A sorsolás egyszer, a sze
 - Becsületalapú: a még nem húzott neveket bárki megnyithatja, ezért mindenki csak a sajátjára nyomjon.
 
 ## Beállítás
-1. Supabase → új projekt → SQL Editor → futtasd a `supabase.sql`-t.
+1. Supabase (új vagy meglévő projekt – minden `mikulas_` előtagú, mást nem érint) → SQL Editor → futtasd a `supabase.sql`-t.
 2. Project Settings → API: a Project URL-t és az anon/publishable key-t írd be az `index.html` tetején.
 3. GitHub → Settings → Pages → Deploy from branch → `main` / root.
 4. Nyisd meg a linket → ⚙️ → találj ki egy PIN-t (min. 6 számjegy) → nevek bemásolása → Sorsolás.
