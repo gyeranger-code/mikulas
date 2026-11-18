@@ -2,7 +2,7 @@
 <html lang="hu">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#7a1020">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -12,87 +12,66 @@
 <link rel="apple-touch-icon" href="icon-192.png">
 <title>Mikulás húzás</title>
 <style>
-  :root{
-    --bg1:#7a1020; --bg2:#3d0610; --card:#fff8f0; --ink:#2a1a12;
-    --gold:#f2c14e; --green:#1f6f4a; --muted:#8a7a70;
-  }
+  :root{--bg1:#7a1020;--bg2:#3d0610;--card:#fff8f0;--ink:#2a1a12;--gold:#f2c14e;--green:#1f6f4a;--muted:#8a7a70}
   *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
   html,body{margin:0;height:100%}
-  body{
-    font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-    background:radial-gradient(circle at 50% 0%,var(--bg1),var(--bg2) 75%);
-    color:#fff; min-height:100dvh; overflow-x:hidden;
-    padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);
-  }
+  body{font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;background:radial-gradient(circle at 50% 0%,var(--bg1),var(--bg2) 75%);color:#fff;min-height:100dvh;overflow-x:hidden;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
   .snow{position:fixed;inset:0;pointer-events:none;z-index:0;overflow:hidden}
-  .snow i{position:absolute;top:-10px;width:6px;height:6px;border-radius:50%;background:#fff;opacity:.7;animation:fall linear infinite}
+  .snow i{position:absolute;top:-10px;border-radius:50%;background:#fff;opacity:.7;animation:fall linear infinite}
   @keyframes fall{to{transform:translateY(105vh) translateX(30px)}}
   main{position:relative;z-index:1;max-width:520px;margin:0 auto;padding:20px 16px 90px}
   h1{font-size:28px;margin:8px 0 4px;text-align:center}
-  .sub{text-align:center;opacity:.8;margin:0 0 18px}
-  .screen{display:none}
-  .screen.active{display:block;animation:fade .25s ease}
+  h2{margin:0 0 6px}
+  .sub{text-align:center;opacity:.85;margin:0 0 18px}
+  .screen{display:none}.screen.active{display:block;animation:fade .25s ease}
   @keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1}}
-  .card{background:var(--card);color:var(--ink);border-radius:18px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+  .card{background:var(--card);color:var(--ink);border-radius:18px;padding:18px;box-shadow:0 10px 30px rgba(0,0,0,.3);margin-bottom:14px}
   label{display:block;font-weight:600;margin:12px 0 6px}
   textarea,input{width:100%;font:inherit;font-size:16px;padding:12px;border-radius:12px;border:2px solid #e3d5c8;background:#fff;color:var(--ink)}
-  textarea{min-height:240px;resize:vertical}
+  textarea{min-height:220px;resize:vertical}
   .hint{font-size:13px;color:var(--muted);margin-top:6px}
   button{font:inherit;cursor:pointer;border:0;border-radius:14px;padding:14px 18px;font-size:17px;font-weight:700}
-  .btn{width:100%;background:var(--gold);color:#3a2300;margin-top:14px}
+  button:disabled{opacity:.5;cursor:default}
+  .btn{width:100%;background:var(--gold);color:#3a2300;margin-top:12px}
   .btn.green{background:var(--green);color:#fff}
-  .btn.ghost{background:transparent;color:#fff;border:2px solid rgba(255,255,255,.5)}
-  .btn.ghost.dark{color:var(--ink);border-color:#d8c8ba}
+  .btn.ghost{background:transparent;color:var(--ink);border:2px solid #d8c8ba}
+  .btn.ghost.light{color:#fff;border-color:rgba(255,255,255,.5)}
   .btn.danger{background:#b3261e;color:#fff}
   .progress{height:10px;background:rgba(255,255,255,.2);border-radius:99px;overflow:hidden;margin:0 0 16px}
   .progress>div{height:100%;background:var(--gold);width:0;transition:width .4s}
   .names{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-  .names button{background:var(--card);color:var(--ink);font-size:15px;padding:16px 10px;min-height:64px;line-height:1.2}
-  .names button:active{transform:scale(.97)}
+  .names button{background:var(--card);color:var(--ink);font-size:15px;padding:14px 10px;min-height:62px;line-height:1.2}
+  .names button.taken{background:rgba(255,255,255,.12);color:rgba(255,255,255,.55);font-weight:500}
+  .names button:not(.taken):active{transform:scale(.97)}
   .center{text-align:center}
   .big-name{font-size:30px;font-weight:800;margin:10px 0;color:var(--bg1);word-break:break-word}
-  .gift{font-size:120px;line-height:1;display:inline-block;margin:20px 0;user-select:none;cursor:pointer;background:none;padding:0}
+  .gift{font-size:120px;line-height:1;display:inline-block;margin:20px 0;user-select:none;background:none;padding:0}
   .gift.shake{animation:shake .9s ease}
-  @keyframes shake{
-    0%,100%{transform:rotate(0) scale(1)}
-    15%{transform:rotate(-14deg) scale(1.05)}30%{transform:rotate(12deg) scale(1.1)}
-    45%{transform:rotate(-10deg) scale(1.15)}60%{transform:rotate(8deg) scale(1.2)}
-    80%{transform:rotate(-4deg) scale(1.3)}
-  }
+  @keyframes shake{0%,100%{transform:rotate(0) scale(1)}15%{transform:rotate(-14deg) scale(1.05)}30%{transform:rotate(12deg) scale(1.1)}45%{transform:rotate(-10deg) scale(1.15)}60%{transform:rotate(8deg) scale(1.2)}80%{transform:rotate(-4deg) scale(1.3)}}
   .reveal{animation:pop .5s cubic-bezier(.2,1.6,.4,1)}
   @keyframes pop{from{transform:scale(.3);opacity:0}to{transform:scale(1);opacity:1}}
   .admin-fab{position:fixed;right:14px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:2;background:rgba(0,0,0,.35);color:#fff;width:48px;height:48px;padding:0;border-radius:50%;font-size:22px}
-  .pairs{list-style:none;padding:0;margin:10px 0 0;font-size:15px}
-  .pairs li{padding:8px 0;border-bottom:1px solid #eadccf}
-  select{width:100%;font:inherit;font-size:16px;padding:12px;border-radius:12px;border:2px solid #e3d5c8;background:#fff;color:var(--ink)}
+  .rows{list-style:none;padding:0;margin:8px 0 0;font-size:15px}
+  .rows li{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:8px 0;border-bottom:1px solid #eadccf}
+  .rows button{font-size:13px;padding:6px 10px;border-radius:10px;background:#eadccf;color:var(--ink)}
   .err{color:#b3261e;font-weight:600;margin-top:8px;min-height:1.2em}
+  .msg{background:rgba(0,0,0,.25);border-radius:14px;padding:14px;text-align:center}
+  .mine{background:var(--gold);color:#3a2300;border-radius:14px;padding:14px;margin-bottom:14px;text-align:center}
+  .mine button{margin-top:10px;width:100%;background:var(--bg1);color:#fff}
 </style>
 </head>
 <body>
 <div class="snow" id="snow"></div>
 <main>
 
-  <!-- BEÁLLÍTÁS -->
-  <section class="screen" id="s-setup">
-    <h1>🎅 Mikulás húzás</h1>
-    <p class="sub">Első indítás – beállítás</p>
-    <div class="card">
-      <label for="names-in">Nevek (soronként egy)</label>
-      <textarea id="names-in" placeholder="Kiss Bea&#10;Szabó Tímea&#10;..."></textarea>
-      <label for="pin-in">Admin PIN (legalább 4 számjegy)</label>
-      <input id="pin-in" type="password" inputmode="numeric" autocomplete="off" placeholder="pl. 2512">
-      <div class="hint">A PIN-nel lehet később valakinek újra megmutatni, kit húzott, vagy mindent nullázni. Ne add meg senkinek.</div>
-      <div class="err" id="setup-err"></div>
-      <button class="btn green" id="setup-go">Sorsolás indítása</button>
-    </div>
-  </section>
-
   <!-- NÉVLISTA -->
   <section class="screen" id="s-list">
     <h1>🎅 Mikulás húzás</h1>
-    <p class="sub" id="list-sub"></p>
+    <p class="sub" id="list-sub">Betöltés…</p>
+    <div id="mine"></div>
     <div class="progress"><div id="prog"></div></div>
     <div class="names" id="names"></div>
+    <div class="msg" id="list-msg" style="display:none"></div>
   </section>
 
   <!-- MEGERŐSÍTÉS -->
@@ -100,9 +79,9 @@
     <div class="card center">
       <p style="margin:6px 0">Szia!</p>
       <div class="big-name" id="confirm-name"></div>
-      <p>Ugye tényleg te vagy az? Ha nem, nyomd a <b>Vissza</b> gombot!</p>
+      <p>Ugye tényleg <b>te</b> vagy az? Ha más nevére nyomsz, elrontod a húzást neki is, magadnak is!</p>
       <button class="btn green" id="confirm-yes">Igen, én vagyok</button>
-      <button class="btn ghost dark" id="confirm-no">Vissza</button>
+      <button class="btn ghost" id="confirm-no">Vissza</button>
     </div>
   </section>
 
@@ -113,114 +92,161 @@
       <button class="gift" id="gift" aria-label="Húzás">🎁</button>
       <p id="draw-tip" style="font-size:18px;font-weight:600">Koppints az ajándékra!</p>
       <div id="result" style="display:none" class="card reveal">
-        <p style="margin:0">Te ő neki készülsz ajándékkal:</p>
+        <p style="margin:0">Te neki készülsz ajándékkal:</p>
         <div class="big-name" id="result-name"></div>
-        <p class="hint" style="margin:0">Jegyezd meg, és senkinek ne áruld el! 🤫</p>
-        <button class="btn green" id="result-ok">Megjegyeztem, mehet tovább</button>
+        <p class="hint" style="margin:0">Senkinek ne áruld el! 🤫 Ezen a telefonon később is megnézheted.</p>
+        <button class="btn green" id="result-ok">Rendben</button>
       </div>
-    </div>
-  </section>
-
-  <!-- KÉSZ -->
-  <section class="screen" id="s-done">
-    <div class="center" style="margin-top:60px">
-      <div style="font-size:100px">🎄</div>
-      <h1>Mindenki húzott!</h1>
-      <p class="sub">Boldog Mikulást! 🎅</p>
+      <div id="draw-err" style="display:none" class="card">
+        <p id="draw-err-text" style="margin:0 0 6px;font-weight:600"></p>
+        <button class="btn" id="draw-err-ok">Vissza</button>
+      </div>
     </div>
   </section>
 
   <!-- ADMIN BELÉPÉS -->
   <section class="screen" id="s-pin">
     <div class="card">
+      <h2>Szervezői belépés</h2>
       <label for="pin-check">Admin PIN</label>
       <input id="pin-check" type="password" inputmode="numeric" autocomplete="off">
+      <div class="hint" id="pin-hint"></div>
       <div class="err" id="pin-err"></div>
       <button class="btn green" id="pin-go">Belépés</button>
-      <button class="btn ghost dark" id="pin-back">Vissza</button>
+      <button class="btn ghost" id="pin-back">Vissza</button>
     </div>
   </section>
 
   <!-- ADMIN -->
   <section class="screen" id="s-admin">
-    <div class="card">
-      <h2 style="margin-top:0">Admin</h2>
+    <div class="card" id="admin-status-card">
+      <h2>Állapot</h2>
       <p class="hint" id="admin-stat"></p>
-
-      <label for="reshow-sel">Elfelejtette, kit húzott? Újra megmutatás:</label>
-      <select id="reshow-sel"></select>
-      <button class="btn" id="reshow-go">Megmutatom neki</button>
-
-      <button class="btn ghost dark" id="show-all">Összes pár megjelenítése (spoiler!)</button>
-      <ul class="pairs" id="pairs" style="display:none"></ul>
-
-      <button class="btn danger" id="reset">Minden törlése, újrakezdés</button>
-      <button class="btn ghost dark" id="admin-back">Vissza a listához</button>
+      <ul class="rows" id="admin-rows"></ul>
+      <button class="btn ghost" id="show-all">Összes pár megjelenítése (spoiler!)</button>
     </div>
+    <div class="card">
+      <h2 id="setup-title">Sorsolás</h2>
+      <label for="names-in">Nevek (soronként egy)</label>
+      <textarea id="names-in" placeholder="Kiss Bea&#10;Szabó Tímea&#10;..."></textarea>
+      <div class="hint" id="setup-hint"></div>
+      <div class="err" id="setup-err"></div>
+      <button class="btn green" id="setup-go">Sorsolás indítása</button>
+    </div>
+    <button class="btn ghost light" id="admin-back">Vissza a listához</button>
   </section>
 
 </main>
-<button class="admin-fab" id="admin-fab" aria-label="Admin">⚙️</button>
+<button class="admin-fab" id="admin-fab" aria-label="Szervező">⚙️</button>
 
 <script>
+// ======= BEÁLLÍTÁS: Supabase → Project Settings → API =======
+const SUPABASE_URL = 'IDE_A_PROJECT_URL';   // pl. https://abcdxyz.supabase.co
+const SUPABASE_KEY = 'IDE_AZ_ANON_KEY';      // anon / publishable key (ez nyugodtan lehet publikus)
+// ============================================================
+
 (() => {
-  const KEY = 'mikulas-state-v1';
-  let state = load();
-  let current = null;      // aki éppen húz
-  let reshowMode = false;  // admin újramutatás
-
-  // ---------- tárolás ----------
-  function load(){
-    try { return JSON.parse(localStorage.getItem(KEY)); } catch { return null; }
-  }
-  function save(){
-    try { localStorage.setItem(KEY, JSON.stringify(state)); }
-    catch { alert('Nem sikerült menteni! Ne használj privát/inkognitó módot.'); }
-  }
-
-  // ---------- sorsolás ----------
-  // Fisher–Yates keverés, majd egy nagy kör: mindenki a következőt kapja.
-  // Így senki nem húzhatja saját magát, és sosem akad el az utolsó ember.
-  function shuffle(a){
-    const arr = a.slice();
-    const rnd = new Uint32Array(arr.length);
-    crypto.getRandomValues(rnd);
-    for (let i = arr.length - 1; i > 0; i--) {
-      const j = rnd[i] % (i + 1);
-      [arr[i], arr[j]] = [arr[j], arr[i]];
-    }
-    return arr;
-  }
-  function makeAssignments(names){
-    const order = shuffle(names);
-    const map = {};
-    order.forEach((n, i) => { map[n] = order[(i + 1) % order.length]; });
-    return map;
-  }
-
-  // ---------- képernyők ----------
   const $ = id => document.getElementById(id);
+  const LS_TOKEN = 'mikulas-token', LS_MINE = 'mikulas-mine';
+
+  // --- telefon-azonosító: ezzel ismeri fel a szerver, hogy ez a telefon már húzott ---
+  function uuid(){
+    if (crypto.randomUUID) return crypto.randomUUID();
+    const b = crypto.getRandomValues(new Uint8Array(16));
+    b[6] = (b[6] & 15) | 64; b[8] = (b[8] & 63) | 128;
+    const h = [...b].map(x => x.toString(16).padStart(2, '0')).join('');
+    return `${h.slice(0,8)}-${h.slice(8,12)}-${h.slice(12,16)}-${h.slice(16,20)}-${h.slice(20)}`;
+  }
+  const ls = {
+    get(k){ try { return localStorage.getItem(k); } catch { return null; } },
+    set(k, v){ try { localStorage.setItem(k, v); } catch {} }
+  };
+  let token = ls.get(LS_TOKEN);
+  if (!token) { token = uuid(); ls.set(LS_TOKEN, token); }
+  const getMine = () => { try { return JSON.parse(ls.get(LS_MINE)) || []; } catch { return []; } };
+  const addMine = n => { const m = getMine(); if (!m.includes(n)) { m.push(n); ls.set(LS_MINE, JSON.stringify(m)); } };
+
+  // --- Supabase RPC hívás ---
+  async function rpc(fn, args = {}){
+    const headers = { 'apikey': SUPABASE_KEY, 'Content-Type': 'application/json' };
+    if (SUPABASE_KEY.startsWith('eyJ')) headers['Authorization'] = 'Bearer ' + SUPABASE_KEY;
+    let res;
+    try {
+      res = await fetch(`${SUPABASE_URL}/rest/v1/rpc/${fn}`, { method: 'POST', headers, body: JSON.stringify(args) });
+    } catch { throw new Error('network'); }
+    const txt = await res.text();
+    const data = txt ? JSON.parse(txt) : null;
+    if (!res.ok) throw new Error((data && data.message) || 'server');
+    return data;
+  }
+  const ERR = {
+    network: 'Nincs internetkapcsolat, vagy nem érhető el a szerver. Próbáld újra!',
+    already_claimed: 'Ezt a nevet már valaki megnyitotta egy másik telefonon. Ha nem te voltál, szólj a szervezőnek!',
+    not_found: 'Ez a név már nem szerepel a listában. Frissítsd az oldalt!',
+    bad_pin: 'Hibás PIN.',
+    short_pin: 'A PIN legalább 6 számjegy legyen.',
+    too_few: 'Legalább 3 név kell.',
+    server: 'Szerverhiba. Próbáld újra kicsit később!'
+  };
+  const errText = e => ERR[e.message] || ('Hiba: ' + e.message);
+
+  // --- képernyők ---
   function show(id){
     document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
     $(id).classList.add('active');
-    $('admin-fab').style.display = (id === 's-list' || id === 's-done') ? 'block' : 'none';
+    $('admin-fab').style.display = id === 's-list' ? 'block' : 'none';
     window.scrollTo(0, 0);
   }
 
+  let names = [];     // [{name, claimed}]
+  let current = null;
+
+  async function loadList(){
+    show('s-list');
+    $('list-msg').style.display = 'none';
+    $('list-sub').textContent = 'Betöltés…';
+    try { names = await rpc('list_names'); }
+    catch (e) { $('names').innerHTML = ''; $('mine').innerHTML = ''; $('list-sub').textContent = ''; $('list-msg').textContent = errText(e); $('list-msg').style.display = 'block'; return; }
+    renderList();
+  }
+
   function renderList(){
-    const left = state.names.filter(n => !state.drawn.includes(n));
-    if (left.length === 0) { show('s-done'); return; }
-    $('list-sub').textContent = `Koppints a saját nevedre! (${state.drawn.length}/${state.names.length} húzott)`;
-    $('prog').style.width = (state.drawn.length / state.names.length * 100) + '%';
-    const box = $('names');
-    box.innerHTML = '';
-    left.slice().sort((a, b) => a.localeCompare(b, 'hu')).forEach(n => {
+    const box = $('names'); box.innerHTML = '';
+    const mine = getMine().filter(n => names.some(x => x.name === n));
+    // saját húzás(ok) ezen a telefonon
+    const mineBox = $('mine'); mineBox.innerHTML = '';
+    mine.forEach(n => {
+      const d = document.createElement('div'); d.className = 'mine';
+      d.innerHTML = `<div>Ezen a telefonon már húzott:</div><div style="font-size:20px;font-weight:800;margin-top:4px"></div>`;
+      d.lastChild.textContent = n;
+      const b = document.createElement('button'); b.textContent = 'Megnézem újra, kit húztam';
+      b.onclick = () => { current = n; startDraw(); };
+      d.appendChild(b); mineBox.appendChild(d);
+    });
+
+    if (names.length === 0) {
+      $('list-sub').textContent = '';
+      $('prog').style.width = '0';
+      $('list-msg').textContent = 'Még nincs sorsolás. A szervező a ⚙️ gombbal tudja elindítani.';
+      $('list-msg').style.display = 'block';
+      return;
+    }
+    const done = names.filter(n => n.claimed).length;
+    $('prog').style.width = (done / names.length * 100) + '%';
+    $('list-sub').textContent = done === names.length
+      ? `Mindenki húzott! 🎄 (${done}/${names.length})`
+      : `Koppints a saját nevedre! (${done}/${names.length} húzott)`;
+
+    names.slice().sort((a, b) => a.name.localeCompare(b.name, 'hu')).forEach(n => {
       const b = document.createElement('button');
-      b.textContent = n;
-      b.onclick = () => { current = n; reshowMode = false; $('confirm-name').textContent = n; show('s-confirm'); };
+      b.textContent = n.claimed ? `✓ ${n.name}` : n.name;
+      if (n.claimed) { b.className = 'taken'; b.disabled = true; }
+      else b.onclick = () => {
+        if (mine.length && !confirm('Ezen a telefonon már húzott valaki. Biztosan valaki más húz most ugyanezen a telefonon?')) return;
+        current = n.name; $('confirm-name').textContent = n.name; show('s-confirm');
+      };
       box.appendChild(b);
     });
-    show('s-list');
   }
 
   function startDraw(){
@@ -229,117 +255,137 @@
     $('gift').classList.remove('shake');
     $('draw-tip').style.display = 'block';
     $('result').style.display = 'none';
+    $('draw-err').style.display = 'none';
     show('s-draw');
   }
 
   let drawing = false;
-  $('gift').onclick = () => {
+  $('gift').onclick = async () => {
     if (drawing) return;
     drawing = true;
     if (navigator.vibrate) navigator.vibrate([60, 40, 60, 40, 120]);
     $('gift').classList.add('shake');
     $('draw-tip').style.display = 'none';
-    // húzás pillanatában rögzítjük, hogy ne lehessen újrahúzni
-    if (!reshowMode && !state.drawn.includes(current)) { state.drawn.push(current); save(); }
-    setTimeout(() => {
-      $('gift').style.display = 'none';
-      $('result-name').textContent = state.assign[current];
+    const wait = new Promise(r => setTimeout(r, 950));
+    let target = null, err = null;
+    try { target = await rpc('claim', { p_name: current, p_token: token }); } catch (e) { err = e; }
+    await wait;
+    $('gift').style.display = 'none';
+    if (target) {
+      addMine(current);
+      $('result-name').textContent = target;
       $('result').style.display = 'block';
-      drawing = false;
-    }, 950);
-  };
-
-  $('result-ok').onclick = () => {
-    $('result-name').textContent = '';
-    current = null;
-    reshowMode = false;
-    renderList();
-  };
-
-  $('confirm-yes').onclick = startDraw;
-  $('confirm-no').onclick = () => { current = null; renderList(); };
-
-  // ---------- beállítás ----------
-  $('setup-go').onclick = () => {
-    const raw = $('names-in').value.split('\n').map(s => s.replace(/\s+/g, ' ').trim()).filter(Boolean);
-    const names = [...new Set(raw)];
-    const pin = $('pin-in').value.trim();
-    const err = $('setup-err');
-    if (names.length < 3) { err.textContent = 'Legalább 3 név kell.'; return; }
-    if (raw.length !== names.length) { err.textContent = 'Van duplikált név – javítsd (pl. tegyél mellé betűt).'; return; }
-    if (!/^\d{4,}$/.test(pin)) { err.textContent = 'A PIN legalább 4 számjegy legyen.'; return; }
-    state = { names, pin, assign: makeAssignments(names), drawn: [], created: Date.now() };
-    save();
-    $('names-in').value = ''; $('pin-in').value = '';
-    renderList();
-  };
-
-  // ---------- admin ----------
-  $('admin-fab').onclick = () => { $('pin-check').value = ''; $('pin-err').textContent = ''; show('s-pin'); setTimeout(() => $('pin-check').focus(), 50); };
-  $('pin-back').onclick = renderList;
-  $('pin-go').onclick = () => {
-    if ($('pin-check').value.trim() !== state.pin) { $('pin-err').textContent = 'Hibás PIN.'; return; }
-    openAdmin();
-  };
-  $('pin-check').addEventListener('keydown', e => { if (e.key === 'Enter') $('pin-go').click(); });
-
-  function openAdmin(){
-    $('admin-stat').textContent = `${state.drawn.length} / ${state.names.length} fő húzott eddig.`;
-    const sel = $('reshow-sel');
-    sel.innerHTML = '';
-    if (state.drawn.length === 0) {
-      sel.innerHTML = '<option value="">Még senki nem húzott</option>';
     } else {
-      state.drawn.slice().sort((a, b) => a.localeCompare(b, 'hu')).forEach(n => {
-        const o = document.createElement('option'); o.value = n; o.textContent = n; sel.appendChild(o);
-      });
+      $('draw-err-text').textContent = errText(err);
+      $('draw-err').style.display = 'block';
     }
-    $('pairs').style.display = 'none';
-    $('show-all').textContent = 'Összes pár megjelenítése (spoiler!)';
+    drawing = false;
+  };
+  $('result-ok').onclick = () => { $('result-name').textContent = ''; current = null; loadList(); };
+  $('draw-err-ok').onclick = () => { current = null; loadList(); };
+  $('confirm-yes').onclick = startDraw;
+  $('confirm-no').onclick = () => { current = null; renderList(); show('s-list'); };
+
+  // --- admin ---
+  let pin = null;
+  $('admin-fab').onclick = () => {
+    $('pin-check').value = ''; $('pin-err').textContent = '';
+    $('pin-hint').textContent = names.length === 0
+      ? 'Első indítás: most találod ki a PIN-t (legalább 6 számjegy). Jegyezd fel!'
+      : '';
+    show('s-pin'); setTimeout(() => $('pin-check').focus(), 50);
+  };
+  $('pin-back').onclick = () => show('s-list');
+  $('pin-check').addEventListener('keydown', e => { if (e.key === 'Enter') $('pin-go').click(); });
+  $('pin-go').onclick = async () => {
+    const p = $('pin-check').value.trim();
+    if (names.length === 0) {                // még nincs sorsolás: a PIN a sorsoláskor rögzül
+      if (!/^\d{6,}$/.test(p)) { $('pin-err').textContent = ERR.short_pin; return; }
+      pin = p; openAdmin([]); return;
+    }
+    $('pin-go').disabled = true;
+    try { const rows = await rpc('admin_list', { p_pin: p, p_with_targets: false }); pin = p; openAdmin(rows); }
+    catch (e) { $('pin-err').textContent = errText(e); }
+    $('pin-go').disabled = false;
+  };
+
+  function openAdmin(rows){
+    const has = rows.length > 0;
+    $('admin-status-card').style.display = has ? 'block' : 'none';
+    $('setup-title').textContent = has ? 'Újrasorsolás' : 'Sorsolás';
+    $('setup-hint').textContent = has
+      ? 'FIGYELEM: az újrasorsolás mindenki eddigi húzását törli!'
+      : 'A sorsolás után a nevek a listában jelennek meg, és jöhet a húzás.';
+    $('setup-go').textContent = has ? 'Újrasorsolás (mindent töröl!)' : 'Sorsolás indítása';
+    $('setup-go').className = has ? 'btn danger' : 'btn green';
+    $('setup-err').textContent = '';
+    renderAdminRows(rows, false);
     show('s-admin');
   }
 
-  $('reshow-go').onclick = () => {
-    const n = $('reshow-sel').value;
-    if (!n) return;
-    current = n; reshowMode = true;
-    startDraw();
-  };
-
-  $('show-all').onclick = () => {
-    const ul = $('pairs');
-    if (ul.style.display === 'block') { ul.style.display = 'none'; $('show-all').textContent = 'Összes pár megjelenítése (spoiler!)'; return; }
-    if (!confirm('Biztos? Ezzel látod, ki kit húzott – a saját párodat is.')) return;
-    ul.innerHTML = '';
-    state.names.slice().sort((a, b) => a.localeCompare(b, 'hu')).forEach(n => {
+  function renderAdminRows(rows, withTargets){
+    const done = rows.filter(r => r.claimed).length;
+    $('admin-stat').textContent = `${done} / ${rows.length} fő húzott. Ha valaki rossz névre nyomott, a „Felold” gombbal a név újra húzható lesz.`;
+    const ul = $('admin-rows'); ul.innerHTML = '';
+    rows.forEach(r => {
       const li = document.createElement('li');
-      li.textContent = `${n} → ${state.assign[n]}${state.drawn.includes(n) ? '' : '  (még nem húzott)'}`;
+      const s = document.createElement('span');
+      s.textContent = (r.claimed ? '✓ ' : '○ ') + r.name + (withTargets ? ` → ${r.target}` : '');
+      li.appendChild(s);
+      if (r.claimed) {
+        const b = document.createElement('button'); b.textContent = 'Felold';
+        b.onclick = async () => {
+          if (!confirm(`Feloldod: ${r.name}? Ezután bárki újra megnyithatja ezt a nevet.`)) return;
+          try { await rpc('admin_unlock', { p_pin: pin, p_name: r.name }); refreshAdmin(withTargets); }
+          catch (e) { alert(errText(e)); }
+        };
+        li.appendChild(b);
+      }
       ul.appendChild(li);
     });
-    ul.style.display = 'block';
-    $('show-all').textContent = 'Párok elrejtése';
-  };
-
-  $('reset').onclick = () => {
-    if (!confirm('Biztosan törölsz MINDENT? Az eddigi húzások elvesznek.')) return;
-    if (!confirm('Tényleg? Ezt nem lehet visszacsinálni.')) return;
-    localStorage.removeItem(KEY);
-    state = null;
-    show('s-setup');
-  };
-  $('admin-back').onclick = renderList;
-
-  // ---------- hó ----------
-  const snow = $('snow');
-  for (let i = 0; i < 30; i++) {
-    const f = document.createElement('i');
-    const s = 3 + Math.random() * 5;
-    f.style.cssText = `left:${Math.random()*100}%;width:${s}px;height:${s}px;animation-duration:${6+Math.random()*8}s;animation-delay:${-Math.random()*14}s`;
-    snow.appendChild(f);
+    $('show-all').textContent = withTargets ? 'Párok elrejtése' : 'Összes pár megjelenítése (spoiler!)';
+    $('show-all').onclick = () => {
+      if (!withTargets && !confirm('Biztos? Ezzel látod, ki kit húzott – a saját párodat is.')) return;
+      refreshAdmin(!withTargets);
+    };
+  }
+  async function refreshAdmin(withTargets){
+    try { renderAdminRows(await rpc('admin_list', { p_pin: pin, p_with_targets: withTargets }), withTargets); }
+    catch (e) { alert(errText(e)); }
   }
 
-  // ---------- indítás ----------
-  if (state && state.names && state.assign) renderList(); else show('s-setup');
+  $('setup-go').onclick = async () => {
+    const raw = $('names-in').value.split('\n').map(s => s.replace(/\s+/g, ' ').trim()).filter(Boolean);
+    const list = [...new Set(raw)];
+    const err = $('setup-err');
+    if (list.length < 3) { err.textContent = ERR.too_few; return; }
+    if (raw.length !== list.length) { err.textContent = 'Van duplikált név – javítsd (pl. tegyél mellé betűt).'; return; }
+    if (names.length && !confirm('Biztosan újrasorsolsz? Mindenki eddigi húzása elveszik!')) return;
+    $('setup-go').disabled = true;
+    try {
+      await rpc('admin_setup', { p_pin: pin, p_names: list });
+      $('names-in').value = '';
+      alert(`Kész! ${list.length} név kisorsolva. Mehet a link a csoportba. 🎅`);
+      loadList();
+    } catch (e) { err.textContent = errText(e); }
+    $('setup-go').disabled = false;
+  };
+  $('admin-back').onclick = loadList;
+
+  // --- hó ---
+  for (let i = 0; i < 30; i++) {
+    const f = document.createElement('i'), s = 3 + Math.random() * 5;
+    f.style.cssText = `left:${Math.random()*100}%;width:${s}px;height:${s}px;animation-duration:${6+Math.random()*8}s;animation-delay:${-Math.random()*14}s`;
+    $('snow').appendChild(f);
+  }
+
+  // --- indítás ---
+  if (SUPABASE_URL.startsWith('IDE_')) {
+    show('s-list');
+    $('list-sub').textContent = '';
+    $('list-msg').textContent = 'Az app még nincs beállítva (Supabase URL / kulcs hiányzik az index.html-ben).';
+    $('list-msg').style.display = 'block';
+  } else loadList();
 
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => navigator.serviceWorker.register('sw.js').catch(() => {}));

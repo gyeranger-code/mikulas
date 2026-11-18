@@ -1,16 +1,16 @@
 # 🎅 Mikulás húzás
 
-Egy telefonos PWA a mikulásnapi húzáshoz: a telefon körbejár, mindenki rányom a saját nevére, és megtudja, kinek kell ajándékot vennie.
+Egy közös link, mindenki a saját telefonján húz. A sorsolás egyszer, a szerveren készül (Supabase), egyetlen nagy körként: senki nem húzhatja magát, és mindenkit pontosan egyszer húznak.
 
-- A párosítás induláskor, egyetlen véletlenszerű körként készül el: senki nem húzhatja saját magát, és az utolsó ember sem akad el.
-- Minden adat csak a telefon böngészőjében (localStorage) van tárolva. A nevek nincsenek benne a repóban.
-- Offline is működik (service worker).
+- Aki rányom egy névre, annak a telefonjához kötődik a név: más telefonról már nem nyitható meg, ő maga viszont később újra megnézheti.
+- A párosítás közvetlenül nem olvasható az adatbázisból, csak a saját párját kapja meg mindenki.
+- Becsületalapú: a még nem húzott neveket bárki megnyithatja, ezért mindenki csak a sajátjára nyomjon.
 
-## Használat
-1. Nyisd meg a GitHub Pages linket a telefonon, és add hozzá a kezdőképernyőhöz.
-2. Másold be a neveket (soronként egyet), adj meg egy admin PIN-t, majd indítsd a sorsolást.
-3. Add körbe a telefont.
+## Beállítás
+1. Supabase → új projekt → SQL Editor → futtasd a `supabase.sql`-t.
+2. Project Settings → API: a Project URL-t és az anon/publishable key-t írd be az `index.html` tetején.
+3. GitHub → Settings → Pages → Deploy from branch → `main` / root.
+4. Nyisd meg a linket → ⚙️ → találj ki egy PIN-t (min. 6 számjegy) → nevek bemásolása → Sorsolás.
+5. Mehet a link a csoportba.
 
-Admin (⚙️ + PIN): újra megmutathatod valakinek, kit húzott, megnézheted az összes párt, vagy nullázhatsz mindent.
-
-> Ne töröld a böngészési adatokat, és ne használj inkognitó módot, amíg mindenki nem húzott.
+Szervező (⚙️ + PIN): állapot, név feloldása (ha valaki rossz névre nyomott), összes pár, újrasorsolás.

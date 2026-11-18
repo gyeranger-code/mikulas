@@ -1,5 +1,5 @@
 // Ha módosítasz bármit, emeld a verziót, különben a telefon a régit mutatja.
-const CACHE = 'mikulas-v1';
+const CACHE = 'mikulas-v2';
 const ASSETS = ['./', './index.html', './manifest.webmanifest', './icon-192.png', './icon-512.png'];
 
 self.addEventListener('install', e => {
