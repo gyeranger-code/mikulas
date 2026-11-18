@@ -293,7 +293,7 @@ const SUPABASE_KEY = 'sb_publishable_kMKvNIULNOD56H-9sODrfw_SdEHDZ1R';      // a
     $('pin-hint').textContent = names.length === 0
       ? 'Első indítás: most találod ki a PIN-t (legalább 6 számjegy). Jegyezd fel!'
       : '';
-    show('s-pin'); setTimeout(() => $('pin-check').focus(), 50);
+    show('s-pin');
   };
   $('pin-back').onclick = () => show('s-list');
   $('pin-check').addEventListener('keydown', e => { if (e.key === 'Enter') $('pin-go').click(); });
